@@ -1,22 +1,31 @@
+import java.util.Properties
+
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
 }
 
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
 android {
-    namespace = "com.lsimanenka.coderefactor"
+    namespace = "com.lsimanenka.network"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.lsimanenka.coderefactor"
         minSdk = 26
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -26,6 +35,13 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            val baseUrl = localProperties.getProperty("PROD_BASE_URL")
+            buildConfigField("String", "BASE_URL", baseUrl)
+        }
+
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://api.example.com/\"")
         }
     }
     compileOptions {
@@ -40,23 +56,18 @@ android {
 dependencies {
 
     implementation(project(":core:datastore"))
-    implementation(project(":core:network"))
-    implementation(project(":core:database"))
-
-    implementation(project(":feature:payment:domain"))
-    implementation(project(":feature:payment:data"))
-    implementation(project(":feature:payment:presentation"))
-
-    implementation("androidx.fragment:fragment-ktx:1.7.1")
 
     implementation("com.google.dagger:hilt-android:2.53.1")
     ksp("com.google.dagger:hilt-compiler:2.53.1")
 
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

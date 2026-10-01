@@ -1,22 +1,19 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
 }
 
 android {
-    namespace = "com.lsimanenka.coderefactor"
+    namespace = "com.lsimanenka.presentation"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.lsimanenka.coderefactor"
         minSdk = 26
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -35,28 +32,27 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-
-    implementation(project(":core:datastore"))
-    implementation(project(":core:network"))
-    implementation(project(":core:database"))
-
     implementation(project(":feature:payment:domain"))
-    implementation(project(":feature:payment:data"))
-    implementation(project(":feature:payment:presentation"))
 
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
     implementation("androidx.fragment:fragment-ktx:1.7.1")
-
+    
     implementation("com.google.dagger:hilt-android:2.53.1")
     ksp("com.google.dagger:hilt-compiler:2.53.1")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

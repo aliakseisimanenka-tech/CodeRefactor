@@ -1,22 +1,20 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 android {
-    namespace = "com.lsimanenka.coderefactor"
+    namespace = "com.lsimanenka.data"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.lsimanenka.coderefactor"
         minSdk = 26
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -39,24 +37,25 @@ android {
 
 dependencies {
 
-    implementation(project(":core:datastore"))
+    implementation("com.google.dagger:hilt-android:2.53.1")
+    ksp("com.google.dagger:hilt-compiler:2.53.1")
+
+    implementation(project(":feature:payment:domain"))
+
     implementation(project(":core:network"))
     implementation(project(":core:database"))
 
-    implementation(project(":feature:payment:domain"))
-    implementation(project(":feature:payment:data"))
-    implementation(project(":feature:payment:presentation"))
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 
-    implementation("androidx.fragment:fragment-ktx:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
-    implementation("com.google.dagger:hilt-android:2.53.1")
-    ksp("com.google.dagger:hilt-compiler:2.53.1")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

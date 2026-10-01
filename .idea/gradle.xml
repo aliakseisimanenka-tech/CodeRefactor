@@ -11,12 +11,15 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/data" />
-            <option value="$PROJECT_DIR$/database" />
-            <option value="$PROJECT_DIR$/datastore" />
-            <option value="$PROJECT_DIR$/domain" />
-            <option value="$PROJECT_DIR$/network" />
-            <option value="$PROJECT_DIR$/presentation" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/database" />
+            <option value="$PROJECT_DIR$/core/datastore" />
+            <option value="$PROJECT_DIR$/core/network" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/payment" />
+            <option value="$PROJECT_DIR$/feature/payment/data" />
+            <option value="$PROJECT_DIR$/feature/payment/domain" />
+            <option value="$PROJECT_DIR$/feature/payment/presentation" />
           </set>
         </option>
       </GradleProjectSettings>

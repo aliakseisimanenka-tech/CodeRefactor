@@ -21,9 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "CodeRefactor"
 include(":app")
-include(":network")
-include(":database")
-include(":datastore")
-include(":domain")
-include(":data")
-include(":presentation")
+include(":core:network")
+include(":core:database")
+include(":core:datastore")
+include(":feature:payment:domain")
+include(":feature:payment:data")
+include(":feature:payment:presentation")
